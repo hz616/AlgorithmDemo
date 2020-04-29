@@ -85,5 +85,8 @@ public class MyArray {
 
         array.insert(1,1);
         array.outPut();
+
+        System.out.println("=================get and out of Bounds=====================");
+        array.get(11);
     }
 }
