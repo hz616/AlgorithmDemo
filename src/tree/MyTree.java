@@ -2,6 +2,7 @@ package tree;
 
 
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -121,6 +122,7 @@ public class MyTree {
 
     /**
      * 中序遍历的非递归实现
+     *
      * @param root
      */
     public void inOrderWithoutRecursion(TreeNode root) {
@@ -131,7 +133,7 @@ public class MyTree {
                 stack.push(node);
                 node = node.leftChild;
             }
-            if(!stack.isEmpty()){
+            if (!stack.isEmpty()) {
                 node = stack.pop();
                 System.out.println(node.data);
                 node = node.rightChild;
@@ -141,6 +143,7 @@ public class MyTree {
 
     /**
      * 后序遍历的非递归实现
+     *
      * @param root
      */
     public void afterOrderWithoutRecursion(TreeNode root) {
@@ -152,7 +155,7 @@ public class MyTree {
         while (!stack.empty()) {
             cur = stack.peek();
             if ((cur.leftChild == null && cur.rightChild == null) || (pre != null && (pre == cur.leftChild || pre == cur.rightChild))) {
-                System.out.println(cur.data );
+                System.out.println(cur.data);
                 stack.pop();
                 pre = cur;
             } else {
@@ -162,6 +165,29 @@ public class MyTree {
                     stack.push(cur.leftChild);
             }
         }
+    }
+
+
+    /**
+     * 二叉树的层序遍历
+     *
+     * @param root 根节点
+     */
+    public void levelOrderTraversal(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode node = root;
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.poll();
+            System.out.println(cur.data);
+            if (cur.leftChild != null) {
+                queue.offer(cur.leftChild);
+            }
+            if (cur.rightChild != null) {
+                queue.offer(cur.rightChild);
+            }
+        }
+
     }
 
 
@@ -198,5 +224,8 @@ public class MyTree {
 
         System.out.println("后递归中序遍历");
         tree.afterOrderWithoutRecursion(tree.mRoot);
+
+        System.out.println("层序遍历");
+        tree.levelOrderTraversal(tree.mRoot);
     }
 }
