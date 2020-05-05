@@ -98,10 +98,15 @@ public class MyTree {
     }
 
 
+    /**
+     * 前序遍历的非递归实现
+     *
+     * @param root 根节点
+     */
     public void preOrderWithoutRecursion(TreeNode root) {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode node = root;
-        while (stack != null || !stack.isEmpty()) {
+        while (node != null || !stack.isEmpty()) {
             while (node != null) {
                 System.out.println(node.data);
                 stack.push(node);
@@ -110,6 +115,51 @@ public class MyTree {
             if (!stack.isEmpty()) {
                 node = stack.pop();
                 node = node.rightChild;
+            }
+        }
+    }
+
+    /**
+     * 中序遍历的非递归实现
+     * @param root
+     */
+    public void inOrderWithoutRecursion(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
+                stack.push(node);
+                node = node.leftChild;
+            }
+            if(!stack.isEmpty()){
+                node = stack.pop();
+                System.out.println(node.data);
+                node = node.rightChild;
+            }
+        }
+    }
+
+    /**
+     * 后序遍历的非递归实现
+     * @param root
+     */
+    public void afterOrderWithoutRecursion(TreeNode root) {
+        TreeNode cur, pre = null;
+
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+
+        while (!stack.empty()) {
+            cur = stack.peek();
+            if ((cur.leftChild == null && cur.rightChild == null) || (pre != null && (pre == cur.leftChild || pre == cur.rightChild))) {
+                System.out.println(cur.data );
+                stack.pop();
+                pre = cur;
+            } else {
+                if (cur.rightChild != null)
+                    stack.push(cur.rightChild);
+                if (cur.leftChild != null)
+                    stack.push(cur.leftChild);
             }
         }
     }
@@ -134,14 +184,19 @@ public class MyTree {
         System.out.println("前序遍历");
         tree.preOrder(tree.mRoot);
 
+        System.out.println("非递归前序遍历");
+        tree.preOrderWithoutRecursion(tree.mRoot);
+
         System.out.println("中序遍历");
         tree.inOrder(tree.mRoot);
+
+        System.out.println("非递归中序遍历");
+        tree.inOrderWithoutRecursion(tree.mRoot);
 
         System.out.println("后序遍历");
         tree.afterOrder(tree.mRoot);
 
-        System.out.println("非递归前序遍历");
-        tree.preOrderWithoutRecursion(tree.mRoot);
-
+        System.out.println("后递归中序遍历");
+        tree.afterOrderWithoutRecursion(tree.mRoot);
     }
 }
