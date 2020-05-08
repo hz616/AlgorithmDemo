@@ -31,6 +31,7 @@ public class LinkedList {
 
     /**
      * 尾插法
+     *
      * @param data
      */
     public void insertTail(int data) {
@@ -47,6 +48,8 @@ public class LinkedList {
     public void insert(int index, int value) {
         Node insertNode = new Node(value);
         Node preNode = get(index - 1);
+        //先找到要插入节点的前面一个节点，插入节点的的下一个节点，指向pre的next
+        //这里思考为什么不先pre.next = insert ? 因为如果pre.next = insert后，那么pre的之前的next节点不知道是谁了，这样就没法插入了
         insertNode.next = preNode.next;
         preNode.next = insertNode;
         size++;
