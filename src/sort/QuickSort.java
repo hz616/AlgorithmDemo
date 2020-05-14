@@ -1,11 +1,17 @@
 package sort;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * 快速排序
  */
 public class QuickSort {
+
+    private final String START_INDEX = "startIndex";
+    private final String END_INDEX = "endIndex";
 
 
     public void quickSort(int[] array, int start, int end) {
@@ -14,9 +20,48 @@ public class QuickSort {
         }
 //        int pivotIndex = partitionDouble(array, start, end);
         int pivotIndex = partitionSingle(array, start, end);
-
+        System.out.println("startIndex is " + start + " endIndex is " + end + " pivot is " + pivotIndex);
         quickSort(array, start, pivotIndex - 1);
         quickSort(array, pivotIndex + 1, end);
+    }
+
+    /**
+     * 快速排序非递归实现的方式
+     * 任何递归实现的方式，都能用过栈来替换
+     * 栈中存放的是一个map 记录每次遍历的startIndex，和endIndex
+     *
+     * @param array 待排序数组
+     * @param start 数组的最左边的元素
+     * @param end   数组的最右边的元素
+     */
+    public void quickSortWithoutRecursion(int[] array, int start, int end) {
+        Stack<Map<String, Integer>> quickStack = new Stack<>();
+        Map<String, Integer> rootParam = new HashMap<>();
+        rootParam.put(START_INDEX, start);
+        rootParam.put(END_INDEX, end);
+        quickStack.push(rootParam);
+        while (!quickStack.isEmpty()) {
+            Map<String, Integer> param = quickStack.pop();
+            int startIndex = param.get(START_INDEX);
+            int endIndex = param.get(END_INDEX);
+            int pivotIndex = partitionSingle(array, startIndex, endIndex);
+            System.out.println("startIndex is " + startIndex + " endIndex is " + endIndex + " pivot is " + pivotIndex);
+            if (startIndex < pivotIndex - 1) {
+                Map<String, Integer> leftParam = new HashMap<>();
+                leftParam.put(START_INDEX, start);
+                leftParam.put(END_INDEX, pivotIndex - 1);
+                quickStack.push(leftParam);
+            }
+
+            if (endIndex > pivotIndex + 1) {
+                Map<String, Integer> rightParam = new HashMap<>();
+                rightParam.put(START_INDEX, pivotIndex + 1);
+                rightParam.put(END_INDEX, endIndex);
+                quickStack.push(rightParam);
+            }
+        }
+
+
     }
 
     /**
@@ -98,6 +143,7 @@ public class QuickSort {
         System.out.println("排序前");
         System.out.println(Arrays.toString(array));
         System.out.println("排序后");
+//        sort.quickSortWithoutRecursion(array, 0, array.length - 1);
         sort.quickSort(array, 0, array.length - 1);
         System.out.println(Arrays.toString(array));
     }
