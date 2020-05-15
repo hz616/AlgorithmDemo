@@ -102,7 +102,7 @@ public class BinaryHeap {
         binaryHeap.buildHeap(array);
         System.out.println(Arrays.toString(array));
 
-        array = new int[]{1, 3, 2, 6, 5, 7, 8, 9, 10, 0};
+        array = new int[]{1, 3, 2, 6, 5, 8, 9, 10, 0};
         System.out.println("堆排序之前的数组");
         System.out.println(Arrays.toString(array));
         binaryHeap.heapSort(array);
