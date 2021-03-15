@@ -1,5 +1,7 @@
 package linkedlist;
 
+import java.util.Arrays;
+
 public class LinkedList {
 
 
@@ -85,6 +87,32 @@ public class LinkedList {
         return removeNode.data;
     }
 
+
+    /**
+     * 删除指定的元素
+     *
+     * @param head
+     * @param value
+     * @return
+     */
+    public Node removeNode(Node head, int value) {
+
+        if (head == null) return head;
+        if (head.data == value) return head.next;
+        Node currentNode = head;
+        while (currentNode.next != null) {
+            if (currentNode.next.data == value) {
+                currentNode.next = currentNode.next.next;
+                break;
+            }
+            currentNode = currentNode.next;
+
+        }
+        return head;
+
+    }
+
+
     public Node get(int index) {
         if (index < 0 || index >= size)
             throw new IndexOutOfBoundsException("size is " + size + " and index is " + index);
@@ -107,6 +135,60 @@ public class LinkedList {
     }
 
 
+    public int[] reversePrint(Node head) {
+
+
+        if (head == null) return null;
+
+        int count = 0;//链表的长度
+
+        Node currentNode = head;
+
+        while (currentNode != null) {
+            count++;
+            currentNode = currentNode.next;
+        }
+
+        int[] reverseList = new int[count];
+
+
+        currentNode = head;
+
+        while (currentNode != null) {
+            reverseList[--count] = currentNode.data;
+            currentNode = currentNode.next;
+        }
+
+        return reverseList;
+
+    }
+
+    /**
+     * 链表翻转
+     *  步骤如下：
+     *  1 定义一个空的节点perNode，让一个节点指向pre，就可以理解为部分翻转了，因为正常情况下是next = current.next 现在需要是pre=current.next
+     *  2 确定当前的节点
+     *  3 记录下当前节点的下一个节点
+     *  4 将当前节点的下一个节点指向前一个节点(部分翻转)
+     *  5 pre节点后移，即pre = head
+     *  6 head后移 即 head = next
+     *
+     * @param head
+     * @return
+     */
+    public Node reverseLinkList(Node head) {
+        Node preNode = null;
+        while (head != null) {
+            Node currentNode = head;
+            Node nextNode = head.next;
+            currentNode.next = preNode;
+            preNode = head;
+            head = nextNode;
+        }
+        return preNode;
+    }
+
+
     public static void main(String[] args) {
         System.out.println("==================头插入=================");
         LinkedList linkedList = new LinkedList();
@@ -118,6 +200,18 @@ public class LinkedList {
         linkedList.insertHead(5);
 
         linkedList.outPut();
+
+//        System.out.println("==================链表翻转=================");
+//        linkedList.head = linkedList.reverseLinkList(linkedList.head);
+//        linkedList.outPut();
+
+//        System.out.println("==================链表中删除指定的元素=================");
+//        System.out.println("头结点的数据为"+linkedList.removeNode(linkedList.head, 3).data);
+//        linkedList.outPut();
+
+
+        System.out.println("==================链表从尾部打印链表=================");
+        System.out.println(Arrays.toString(linkedList.reversePrint(linkedList.head)));
 
         System.out.println("get node index and index is 3 value is " + linkedList.get(3).data);
 
