@@ -31,6 +31,9 @@ public class CountSort {
             countArray[array[i]]++;//这里可能有点复杂，array[i]的值对应countArray的下标，并将对应的countArray的值+1,就可以知道有几个array[i] ，countArray数组中，index对应的整数为0，则表示array中没有index这个数
         }
 
+        System.out.println("经过一轮计数后的countArray数组");
+        System.out.println(Arrays.toString(countArray));
+
 
         //遍历统计的数组
         int countIndex = 0;

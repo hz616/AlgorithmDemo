@@ -15,6 +15,14 @@ public class LinkedList {
     public LinkedList() {
     }
 
+    public Node getHead() {
+        return head;
+    }
+
+    public Node getTail() {
+        return tail;
+    }
+
     /**
      * 头插法
      *
@@ -165,13 +173,13 @@ public class LinkedList {
 
     /**
      * 链表翻转
-     *  步骤如下：
-     *  1 定义一个空的节点perNode，让一个节点指向pre，就可以理解为部分翻转了，因为正常情况下是next = current.next 现在需要是pre=current.next
-     *  2 确定当前的节点
-     *  3 记录下当前节点的下一个节点
-     *  4 将当前节点的下一个节点指向前一个节点(部分翻转)
-     *  5 pre节点后移，即pre = head
-     *  6 head后移 即 head = next
+     * 步骤如下：
+     * 1 定义一个空的节点perNode，让一个节点指向pre，就可以理解为部分翻转了，因为正常情况下是next = current.next 现在需要是pre=current.next
+     * 2 确定当前的节点
+     * 3 记录下当前节点的下一个节点
+     * 4 将当前节点的下一个节点指向前一个节点(部分翻转)
+     * 5 pre节点后移，即pre = head
+     * 6 head后移 即 head = next
      *
      * @param head
      * @return
@@ -186,6 +194,36 @@ public class LinkedList {
             head = nextNode;
         }
         return preNode;
+    }
+
+
+    /**
+     * 输入一个链表，输出该链表中倒数第k个节点。
+     * 为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。
+     * 例如，一个链表有6个节点，从头节点开始，它们的值依次是1、2、3、4、5、6。这个链表的倒数第3个节点是值为4的节点。
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public Node getKthFromEnd(Node head, int k) {
+
+        if (head == null || k < 0) return null;
+        Node fastNode = head;
+        for (int i = 1; i < k; i++) {
+            if (fastNode == null) return null;//避免倒数的数大于链表长度
+            fastNode = fastNode.next;
+        }
+
+        Node slowNode = head;
+
+        while (fastNode.next != null) {
+            fastNode = fastNode.next;
+            slowNode = slowNode.next;
+        }
+
+        return slowNode;
+
     }
 
 
@@ -208,6 +246,9 @@ public class LinkedList {
 //        System.out.println("==================链表中删除指定的元素=================");
 //        System.out.println("头结点的数据为"+linkedList.removeNode(linkedList.head, 3).data);
 //        linkedList.outPut();
+
+        System.out.println("==================查找倒数第几个数的值=================");
+        System.out.println("倒数第3个数的值为：" + linkedList.getKthFromEnd(linkedList.head, 3).data);
 
 
         System.out.println("==================链表从尾部打印链表=================");
@@ -249,6 +290,48 @@ public class LinkedList {
         tailInsertList.remove(2);
         tailInsertList.outPut();
 
+
+
+
+
+        System.out.println("==================合并两个排序链表=================");
+        LinkedList listOne = new LinkedList();
+        listOne.insertTail(1);
+        listOne.insertTail(3);
+        listOne.insertTail(4);
+        System.out.println("==================listOne=================");
+        listOne.outPut();
+
+        LinkedList listTwo = new LinkedList();
+        listTwo.insertTail(2);
+        listTwo.insertTail(3);
+        listTwo.insertTail(5);
+
+        System.out.println("==================listTwo=================");
+        listTwo.outPut();
+
+
+
+
+        LinkedList mergeList = new LinkedList();
+        Node listOneHead = listOne.getHead();
+        Node listTwoHead = listTwo.getHead();
+
+        while (listOneHead != null && listTwoHead != null) {
+            if (listOneHead.data < listTwoHead.data) {
+                mergeList.insertTail(listOneHead.data);
+                listOneHead = listOneHead.next;
+            } else {
+                mergeList.insertTail(listTwoHead.data);
+                listTwoHead = listTwoHead.next;
+            }
+        }
+
+        Node mergeListTail = mergeList.getTail();
+
+        mergeListTail.next = listOneHead == null ? listTwoHead : listOneHead;
+        System.out.println("==================合并后的链表=================");
+        mergeList.outPut();
 
     }
 
